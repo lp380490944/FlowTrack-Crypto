@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: binance-funding-flow-analyzer
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run binance_funding_flow_analyzer.py --server.port $PORT --server.address 0.0.0.0
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: true
+      - key: DEEPSEEK_API_KEY
+        sync: false # This ensures Render will prompt you to enter this as a secret 
