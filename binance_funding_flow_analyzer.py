@@ -804,7 +804,7 @@ def send_to_deepseek(data):
     )
 
     payload = {
-        "model": "deepseek-r1",
+        "model": "deepseek-chat",
         "messages": [{"role": "user", "content": prompt}],
         "stream": False,
         "max_tokens": 2048,
@@ -813,6 +813,9 @@ def send_to_deepseek(data):
 
     try:
         response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload)
+        # 诊断: 若返回非200状态，打印详细响应内容
+        if response.status_code != 200:
+            logger.error(f"DeepSeek 返回错误: {response.status_code} - {response.text}")
         response.raise_for_status()
         result = response.json()
         return result['choices'][0]['message']['content']
@@ -1008,4 +1011,3 @@ def run_analysis(symbols):
 if __name__ == "__main__":
     # 所有逻辑都在上面实现了
     pass
-
